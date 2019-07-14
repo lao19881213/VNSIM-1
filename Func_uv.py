@@ -433,22 +433,22 @@ class FuncUv(object):
         e_bpa = -0.5 * np.arctan2(2.0 * muv, muu - mvv)
         e_bpa = e_bpa * 180 / np.pi
 
-        # fudge = 0.7  # Empirical fudge factor of TJP's algorithm
-        # ftmp = np.sqrt((muu - mvv) ** 2 + 4 * muv * muv)
-        # # print('ftmp=', ftmp)
-        # # print('sum=', muu + mvv)
-        #
-        #
-        #
-        # e_bmaj = fudge / (np.sqrt(2.0 * (muu + mvv - ftmp)))
-        # e_bmaj = e_bmaj / np.pi * 180 * 3600 * 1000
-        #
-        # e_bmin = fudge / (np.sqrt(2.0 * (muu + mvv) + 2.0 * ftmp))
-        # e_bmin = e_bmin / np.pi * 180 * 3600 * 1000
+        fudge = 0.7  # Empirical fudge factor of TJP's algorithm
+        ftmp = np.sqrt((muu - mvv) ** 2 + 4 * muv * muv)
+         # print('ftmp=', ftmp)
+         # print('sum=', muu + mvv)
+        
+        
+        
+        e_bmaj = fudge / (np.sqrt(2.0 * (muu + mvv - ftmp)))
+        e_bmaj = e_bmaj / np.pi * 180 * 3600 * 1000
+        
+        e_bmin = fudge / (np.sqrt(2.0 * (muu + mvv) + 2.0 * ftmp))
+        e_bmin = e_bmin / np.pi * 180 * 3600 * 1000
 
-        # self.e_bpa, self.e_bmaj, self.e_bmin = e_bpa, e_bmaj, e_bmin
-        self.e_bpa, self.e_bmin = e_bpa, min_beam
-        return self.e_bpa, self.e_bmin, max_bl
+        self.e_bpa, self.e_bmaj, self.e_bmin = e_bpa, e_bmaj, e_bmin
+        #self.e_bpa, self.e_bmin = e_bpa, min_beam
+        return self.e_bpa, self.e_bmin, self.e_bmaj, max_bl
 
     # other
     def get_max_uv(self):
@@ -760,8 +760,8 @@ def run_uv_basic():
 
     # show calculating info
     if args.img_info:
-        e_bpa, e_bmin, max_bl = myFuncUV._calculate_beam_size()
-        print('e_bpa={} degree, e_bmin = {} mas, max_baseline = {}'.format(e_bpa, e_bmin, max_bl))
+        e_bpa, e_bmin, e_bmaj, max_bl = myFuncUV._calculate_beam_size()
+        print('e_bpa={} degree, e_bmin = {} mas, e_bmaj = {} mas, max_baseline = {}'.format(e_bpa, e_bmin, e_bmaj, max_bl))
 
     # save uv img
     img_type = 'pdf'

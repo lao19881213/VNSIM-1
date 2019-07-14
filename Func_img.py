@@ -1031,7 +1031,7 @@ def run_img():
         plt.savefig(path_save_uv)
 
         # 2) dirty beam
-        fig2 = plt.figure(figsize=(4, 4))
+        fig2 = plt.figure()
         fig_bm = fig2.add_subplot(111, aspect='equal')
         # plot_beam = fig_bm.imshow(data_img_bm, origin='lower', aspect='equal', vmin=-0, vmax=1.0, cmap=colormap)
         # plot_beam = fig_bm.imshow(data_img_bm, picker=True, cmap=colormap, norm=norm) # interpolation='nearest',
@@ -1044,7 +1044,7 @@ def run_img():
         plt.savefig(path_save_bm)
 
         # 3) clean beam
-        fig3 = plt.figure(figsize=(4, 4))
+        fig3 = plt.figure()
         fig_cbm = fig3.add_subplot(111, aspect='equal')
         plot_cbeam = fig_cbm.imshow(data_img_cbm, origin='lower', aspect='equal',picker=True, interpolation='nearest', cmap=colormap, norm=norm)
         plt.setp(plot_cbeam, extent=(-show_range, show_range, -show_range, show_range))
@@ -1055,7 +1055,7 @@ def run_img():
         plt.savefig(path_save_cbm)
 
         # 4) src model
-        fig4 = plt.figure(figsize=(4, 4))
+        fig4 = plt.figure()
         fig_model = fig4.add_subplot(111, aspect='equal')
         plot_model = fig_model.imshow(np.power(data_img_src, gamma), origin='lower', aspect='equal',picker=True, cmap=colormap, norm=norm)
         plt.setp(plot_model, extent=(-show_range, show_range, -show_range, show_range))
@@ -1066,7 +1066,7 @@ def run_img():
         plt.savefig(path_save_src)
 
         # 5) dirty map
-        fig5 = plt.figure(figsize=(4, 4))
+        fig5 = plt.figure()
         fig_map = fig5.add_subplot(111, aspect='equal')
         plot_map = fig_map.imshow(data_img_map, origin='lower', aspect='equal', cmap=colormap, norm=norm)
         plt.setp(plot_map, extent=(-show_range, show_range, -show_range, show_range))
@@ -1077,7 +1077,7 @@ def run_img():
         plt.savefig(path_save_map)
 
         # 6) clean map
-        fig6 = plt.figure(figsize=(4, 4))
+        fig6 = plt.figure()
         fig_cmap = fig6.add_subplot(111, aspect='equal')
         plot_cmap = fig_cmap.imshow(data_img_cmap, origin='lower', aspect='equal', picker=True, interpolation='nearest', cmap=colormap, norm=norm)
         plt.setp(plot_cmap, extent=(-show_range, show_range, -show_range, show_range))
