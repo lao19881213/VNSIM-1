@@ -19,6 +19,7 @@ import argparse
 import configparser
 import pickle
 import time
+import math
 
 # colors normalization
 norm = mpl.colors.Normalize(vmin=0, vmax=0.6)

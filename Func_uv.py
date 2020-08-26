@@ -217,10 +217,11 @@ class FuncUv(object):
 
     # 4. single uv function
     def get_result_single_uv_with_update(self):
-        self._func_uv()
+        lst_u, lst_v, bl_sta1_name, bl_sta2_name, bl_duration = self._func_uv()
         self._parse_result_dict()
         self.result_u, self.result_v, self.max_range_single_uv = self._get_tmp_single_uv()
-        return self.result_u, self.result_v, self.max_range_single_uv
+        #return self.result_u, self.result_v, self.max_range_single_uv
+        return lst_u, lst_v, self.max_range_single_uv
 
     # for multiprocessing purpose (separate updating and getter)
     def update_result_single_uv(self):
@@ -247,7 +248,7 @@ class FuncUv(object):
         return self._get_tmp_single_uv()
 
     def _get_tmp_single_uv(self):
-        self._func_uv()
+        #self._func_uv()
         self._parse_result_dict()
         return self.result_tmp_u, self.result_tmp_v, self.max_range_tmp
 
@@ -271,6 +272,7 @@ class FuncUv(object):
 
     def _func_uv(self):
         # according to the baseline type, calculate the corresponding uv coverage
+        #print(self.baseline_type)
         if (self.baseline_type & 1) != 0:  # ground to ground
             lst_u, lst_v, bl_sta1_name, bl_sta2_name, bl_duration \
                 = self._func_uv_gg()
@@ -297,6 +299,7 @@ class FuncUv(object):
             self.dict_bl_sta1["ss"] = bl_sta1_name
             self.dict_bl_sta2["ss"] = bl_sta2_name
             self.dict_bl_duration["ss"] = bl_duration
+        return lst_u, lst_v, bl_sta1_name, bl_sta2_name, bl_duration
 
     def _get_uv_coordination(self, mat_uv, pos_sta1, pos_sta2):
         d = np.array(pos_sta1) - np.array(pos_sta2)
@@ -351,21 +354,27 @@ class FuncUv(object):
         baseline_sta1_name = []  # 一条地地基线对应的两个站名
         baseline_sta2_name = []
         baseline_duration = []  # 基线存在的时间
-
         # traverse all the time period
-        for timestamp in np.arange(self.start_mjd, self.stop_mjd, self.time_step):
-            active_station = mo.obs_all_active_vlbi(timestamp, self.src_ra, self.src_dec, self.pos_mat_vlbi,
+        
+        #for timestamp in np.arange(self.start_mjd, self.stop_mjd, self.time_step):
+        #for timestamp in np.arange(self.start_mjd, self.start_mjd+self.time_step, self.time_step):
+        timestamp = self.start_mjd
+        active_station = mo.obs_all_active_vlbi(timestamp, self.src_ra, self.src_dec, self.pos_mat_vlbi,
                                                     self.cutoff_mode)
-            uv_matrix = ut.trans_matrix_uv_itrf(timestamp, self.src_ra, self.src_dec)
+        uv_matrix = ut.trans_matrix_uv_itrf(timestamp, self.src_ra, self.src_dec)
             # traverse all the combinations of ground stations
-            for i in np.arange(len(self.pos_mat_vlbi)):
-                for j in np.arange(i + 1, len(self.pos_mat_vlbi)):
-                    if active_station[2 * i + 1] is True and active_station[2 * j + 1] is True:
+        #print(timestamp)
+        for i in np.arange(len(self.pos_mat_vlbi)):
+            for j in np.arange(i + 1, len(self.pos_mat_vlbi)):
+                if active_station[2 * i + 1] is True and active_station[2 * j + 1] is True:
                         sta1_pos = self.pos_mat_vlbi[i][1:4]
                         sta2_pos = self.pos_mat_vlbi[j][1:4]
+                         
+                        #print(sta2_pos)
                         u, v, w = self._get_uv_coordination(uv_matrix, sta1_pos, sta2_pos)  # 单位为m
                         u /= 1000
                         v /= 1000
+                        #print(u)
                         lst_u.extend([u, -u])
                         # lst_v.extend([-v, v])
                         lst_v.extend([v, -v])
@@ -375,6 +384,7 @@ class FuncUv(object):
                         baseline_duration.extend([timestamp])
 
         # return the value
+        #print(np.array(lst_u).shape)
         return lst_u, lst_v, baseline_sta1_name, baseline_sta2_name, baseline_duration
 
     def _func_uv_gs(self, start_mjd, stop_mjd, time_step, src_ra, src_dec, pos_mat_sat, pos_mat_telemetry,
@@ -675,8 +685,9 @@ def parse_args():
                         help='Choose to show GUI or not')
     parser.add_argument('-s',
                         '--save_uv',
-                        action="store_true",
-                        help='Store the uv data (/OUTPUT/uv_basic/uvdata.txt)')
+                        #action="store_true",
+                        default='/OUTPUT/uv_basic/uvdata.txt',
+                        help='Store the uv data')
     parser.add_argument('-i',
                         '--img_info',
                         action="store_true",
@@ -712,6 +723,7 @@ def run_uv_basic():
     time_step = ut.time_2_day(*my_config_parser.time_step)
     # invoke the calculation functions
     cutoff_dict = {"flag": lc.cutoff_mode["flag"], "CutAngle": my_config_parser.cutoff_angle}
+    #print(1)
     myFuncUV = FuncUv(start_time, stop_time, time_step,
                       my_config_parser.pos_mat_src[0],
                       my_config_parser.pos_mat_src,
@@ -724,10 +736,10 @@ def run_uv_basic():
                       cutoff_dict,
                       my_config_parser.precession_mode
                       )
+    #print(my_config_parser.pos_mat_vlbi)
 
     # calculate u and v
     x, y, max_xy = myFuncUV.get_result_single_uv_with_update()
-
     # create the imgs
     fig = plt.figure(figsize=(8,8))
     ax = plt.subplot(111, aspect='equal')
@@ -751,11 +763,14 @@ def run_uv_basic():
         ax.xaxis.get_major_formatter().set_powerlimits((0, 1))
 
     # save uv data
-    if args.save_uv:
-        name = "uvdata" + time.asctime() + '.txt'
-        uv_path = os.path.join(os.path.join(os.getcwd(), 'OUTPUT'), 'uv_basic')
-        uv_path = os.path.join(uv_path, name)
-        np.savetxt(uv_path, [x, y], fmt='%0.4f')
+    if args.save_uv !='': 
+        #name = "uvdata" + time.asctime() + '.txt'
+        #uv_path = os.path.join(os.path.join(os.getcwd(), 'OUTPUT'), 'uv_basic')
+        #uv_path = os.path.join(uv_path, name)
+        uv_path = args.save_uv
+    
+        xy = np.array([x,y]).T 
+        np.savetxt(uv_path, xy, fmt='%0.4f')
         # read_in = np.loadtxt(uv_path,dtype=np.float32)
 
     # show calculating info
