@@ -356,17 +356,16 @@ class FuncUv(object):
         baseline_duration = []  # 基线存在的时间
         # traverse all the time period
         
-        #for timestamp in np.arange(self.start_mjd, self.stop_mjd, self.time_step):
+        for timestamp in np.arange(self.start_mjd, self.stop_mjd, self.time_step):
         #for timestamp in np.arange(self.start_mjd, self.start_mjd+self.time_step, self.time_step):
-        timestamp = self.start_mjd
-        active_station = mo.obs_all_active_vlbi(timestamp, self.src_ra, self.src_dec, self.pos_mat_vlbi,
+            active_station = mo.obs_all_active_vlbi(timestamp, self.src_ra, self.src_dec, self.pos_mat_vlbi,
                                                     self.cutoff_mode)
-        uv_matrix = ut.trans_matrix_uv_itrf(timestamp, self.src_ra, self.src_dec)
+            uv_matrix = ut.trans_matrix_uv_itrf(timestamp, self.src_ra, self.src_dec)
             # traverse all the combinations of ground stations
         #print(timestamp)
-        for i in np.arange(len(self.pos_mat_vlbi)):
-            for j in np.arange(i + 1, len(self.pos_mat_vlbi)):
-                if active_station[2 * i + 1] is True and active_station[2 * j + 1] is True:
+            for i in np.arange(len(self.pos_mat_vlbi)):
+                for j in np.arange(i + 1, len(self.pos_mat_vlbi)):
+                    if active_station[2 * i + 1] is True and active_station[2 * j + 1] is True:
                         sta1_pos = self.pos_mat_vlbi[i][1:4]
                         sta2_pos = self.pos_mat_vlbi[j][1:4]
                          
