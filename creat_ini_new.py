@@ -53,7 +53,7 @@ str_stop = args.stop_time
 
 conf = configparser.ConfigParser()
 
-ini_file = '/home/lbq/work/VNSIM-1/CONFIG_FILE/config_uv_qitai_square.ini'
+ini_file = './CONFIG_FILE/config_uv_qitai_square.ini'
 
 conf.read(ini_file)
 
