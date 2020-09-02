@@ -371,8 +371,8 @@ class FuncUv(object):
                          
                         #print(sta2_pos)
                         u, v, w = self._get_uv_coordination(uv_matrix, sta1_pos, sta2_pos)  # 单位为m
-                        u /= 1000
-                        v /= 1000
+                        u /= 1000.0
+                        v /= 1000.0
                         #print(u)
                         lst_u.extend([u, -u])
                         # lst_v.extend([-v, v])
@@ -685,7 +685,7 @@ def parse_args():
     parser.add_argument('-s',
                         '--save_uv',
                         #action="store_true",
-                        default='/OUTPUT/uv_basic/uvdata.txt',
+                        default='./OUTPUT/uv_basic/uvdata.txt',
                         help='Store the uv data')
     parser.add_argument('-i',
                         '--img_info',
@@ -743,16 +743,17 @@ def run_uv_basic():
     fig = plt.figure(figsize=(8,8))
     ax = plt.subplot(111, aspect='equal')
     if x is not None and y is not None:
-        x = np.array(x)
-        y = np.array(y)
-        max_range = max_xy *1.1
+        x = np.array(x)/1000.0
+        y = np.array(y)/1000.0
+        max_range = max_xy /1000.0 *1.1
         ax.scatter(x, y, s=1, marker='.', color='brown')
+        plt.ticklabel_format(useOffset=False, style='plain')
         ax.set_xlim([-max_range, max_range])
         ax.set_ylim([-max_range, max_range])
         ax.set_title("UV Plot: %s"% my_config_parser.str_source[0])
         if my_config_parser.unit_flag == 'km':
-            ax.set_xlabel("u$(km)$")
-            ax.set_ylabel("v$(km)$")
+            ax.set_xlabel("$u$(km)")
+            ax.set_ylabel("$v$(km)")
         else:
             ax.set_xlabel("u$(\lambda)$")
             ax.set_ylabel("v$(\lambda)$")
