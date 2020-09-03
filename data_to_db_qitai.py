@@ -1,6 +1,8 @@
 from Func_db import DbModel
 import tkinter as tk
 import sqlite3
+import argparse
+
 db_file = 'database.db'
 pkl_file = 'database.pkl'
 
@@ -13,23 +15,34 @@ pkl_file = 'database.pkl'
 myDb=DbModel(db_file, pkl_file)
 
 myDb.write_to_pickle()
+def parse_args():
+        parser = argparse.ArgumentParser(description="insert array data")
+        parser.add_argument('-a',
+                            '--array_data',
+                            default='qitai_square',
+                            help='Specify the obser array data')
 
+
+        return parser.parse_args()
+
+
+args = parse_args()
 import numpy as np
-data_qitai_square = np.loadtxt('./DATABASE/qitai_square.txt', dtype=float)
-#print(data_qitai_square)
-data_qitai_square[:,0] = data_qitai_square[:,0]/1000.0
-data_qitai_square[:,1] = data_qitai_square[:,1]/1000.0
-data_qitai_square[:,2] = data_qitai_square[:,2]/1000.0
-#print(data_qitai_square)
-for mm in range(data_qitai_square.shape[0]):
-       qitai_square_name = 'qitai_square_new_%s' % str(mm+1)
-       qitai_square_x = data_qitai_square[mm,0]
-       qitai_square_y = data_qitai_square[mm,1]
-       qitai_square_z = data_qitai_square[mm,2]
-       qitai_square_el = '10.0'
-       qitai_square_type = '0'
+data_array = np.loadtxt('./DATABASE/%s' % args.array_data, dtype=float)
+#print(data_array)
+data_array[:,0] = data_array[:,0]
+data_array[:,1] = data_array[:,1]
+data_array[:,2] = data_array[:,2]
+#print(data_array)
+for mm in range(data_array.shape[0]):
+       array_name = '%s_%s' % (args.array_data, str(mm+1))
+       array_x = data_array[mm,0]
+       array_y = data_array[mm,1]
+       array_z = data_array[mm,2]
+       array_el = '10.0'
+       array_type = '0'
        sql = 'INSERT INTO table_vlbi (vlbi_name, vlbi_x, vlbi_y, vlbi_z, vlbi_el, vlbi_type) VALUES("' \
-         + qitai_square_name + '",' + str(qitai_square_x) + "," + str(qitai_square_y) + ',' + str(qitai_square_z) + ',' + qitai_square_el + ',' + qitai_square_type + ')'
+         + array_name + '",' + str(array_x) + "," + str(array_y) + ',' + str(array_z) + ',' + array_el + ',' + array_type + ')'
 
        with sqlite3.connect(myDb.db_path) as conn:
             cur = conn.cursor()

@@ -5,7 +5,7 @@
 """
 
 import matplotlib as mpl
-mpl.use("TkAgg")
+#mpl.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
@@ -723,6 +723,7 @@ def run_uv_basic():
     # invoke the calculation functions
     cutoff_dict = {"flag": lc.cutoff_mode["flag"], "CutAngle": my_config_parser.cutoff_angle}
     #print(1)
+    #print(my_config_parser.pos_mat_src)
     myFuncUV = FuncUv(start_time, stop_time, time_step,
                       my_config_parser.pos_mat_src[0],
                       my_config_parser.pos_mat_src,

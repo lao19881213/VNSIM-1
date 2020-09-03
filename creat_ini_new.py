@@ -39,7 +39,10 @@ def parse_args():
                         '--source_pos',
                         default='RA00DEC90',
                         help='Specify the source position')
-
+    parser.add_argument('-i',
+                       '--conf_ini',
+                       default='config_uv_qitai_square.ini',
+                       help='Specify the ini conf file')
 
     return parser.parse_args()
 
@@ -53,7 +56,7 @@ str_stop = args.stop_time
 
 conf = configparser.ConfigParser()
 
-ini_file = './CONFIG_FILE/config_uv_qitai_square.ini'
+ini_file = './CONFIG_FILE/%s' % args.conf_ini
 
 conf.read(ini_file)
 
