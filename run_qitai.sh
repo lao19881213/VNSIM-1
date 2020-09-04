@@ -6,8 +6,9 @@ STOP_TIME="2021/10/01/01/00/00 2021/10/01/03/00/00 2021/10/01/06/00/00"
 
 hours=(1 3 6)
 
-OBS_N='qitai_y_shape_new'
-
+OBS_N_ALL="qitai_square qitai_circle qitai_t_shape qitai_y_shape"
+for OBS_N in $OBS_N_ALL;
+do	
 for radec in $RA_DEC;
 do
 	echo $radec
@@ -19,4 +20,5 @@ do
                 python3 Func_uv.py -c config_uv_${OBS_N}.ini  -f png -n ${OBS_N}_${radec}_${hours[$i]}h
 		let i+=1 
         done
+done
 done
