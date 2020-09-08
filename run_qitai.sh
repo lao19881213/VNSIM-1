@@ -6,7 +6,8 @@ STOP_TIME="2021/10/01/01/00/00 2021/10/01/03/00/00 2021/10/01/06/00/00"
 
 hours=(1 3 6)
 
-OBS_N_ALL="qitai_square qitai_circle qitai_t_shape qitai_y_shape"
+OBS_N_ALL="qitai_square qitai_circle qitai_t_shape qitai_y_shape qitai_spiral"
+
 for OBS_N in $OBS_N_ALL;
 do	
 for radec in $RA_DEC;
