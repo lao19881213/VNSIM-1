@@ -5,7 +5,7 @@
 """
 import os
 import matplotlib as mpl
-mpl.use("TkAgg")
+#mpl.use("TkAgg")
 import matplotlib.image as plimg
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -825,6 +825,10 @@ def parse_args():
                         choices=['eps', 'png', 'pdf', 'svg', 'ps'],
                         help='Specify the img format (default:pdf)',
                         default='pdf')
+    parser.add_argument('-n',
+                        '--img_name',
+                        help='Specify the img name (default:vlbi)',
+                        default='vlbi')
     # parser.add_argument('-m',
     #                     '--color_map',
     #                     choices=['viridis', 'hot', 'jet', 'rainbow', 'Greys', 'cool', 'nipy_spectral'],
@@ -930,14 +934,15 @@ def run_img():
         img_type = args.img_fmt
     # 8.1 specify img type and output directory
     img_out_path = os.path.join(os.path.join(os.getcwd(), 'OUTPUT'), 'imaging')
-    path_time_str = time.asctime()
-    path_save_uv = os.path.join(img_out_path, "uv-{}.{}".format(path_time_str, img_type))
-    path_save_bm = os.path.join(img_out_path, "dirty-beam-{}.{}".format(path_time_str, img_type))
-    path_save_cbm = os.path.join(img_out_path, "clean-beam-{}.{}".format(path_time_str, img_type))
-    path_save_src = os.path.join(img_out_path, "src-model-{}.{}".format(path_time_str, img_type))
-    path_save_map = os.path.join(img_out_path, "dirty-map-{}.{}".format(path_time_str, img_type))
-    path_save_cmap = os.path.join(img_out_path,"clean-map-{}.{}".format(path_time_str, img_type))
-    path_save_integrate = os.path.join(img_out_path,"Integrated-all-{}.{}".format(path_time_str, img_type))
+    path_str = args.img_name
+    #path_time_str = time.asctime()
+    path_save_uv = os.path.join(img_out_path, "uv-{}.{}".format(path_str, img_type))
+    path_save_bm = os.path.join(img_out_path, "dirty-beam-{}.{}".format(path_str, img_type))
+    path_save_cbm = os.path.join(img_out_path, "clean-beam-{}.{}".format(path_str, img_type))
+    path_save_src = os.path.join(img_out_path, "src-model-{}.{}".format(path_str, img_type))
+    path_save_map = os.path.join(img_out_path, "dirty-map-{}.{}".format(path_str, img_type))
+    path_save_cmap = os.path.join(img_out_path,"clean-map-{}.{}".format(path_str, img_type))
+    path_save_integrate = os.path.join(img_out_path,"Integrated-all-{}.{}".format(path_str, img_type))
 
     # 8.2 draw imgs
     if args.group_img:
