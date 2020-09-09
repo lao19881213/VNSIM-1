@@ -949,9 +949,9 @@ def run_img():
         figs = plt.figure(figsize=(8, 4))
         # 1) u,v
         fig_uv = figs.add_subplot(231, aspect='equal')
-        x = np.array(data_u)
-        y = np.array(data_v)
-        max_range = max_uv * 1.1
+        x = np.array(data_u)/1000.0
+        y = np.array(data_v)/1000.0
+        max_range = max_uv * 1.1 /1000.0
         fig_uv.scatter(x, y, s=1, marker='.', color='brown')
         fig_uv.set_xlim([-max_range, max_range])
         fig_uv.set_ylim([-max_range, max_range])
@@ -1016,16 +1016,18 @@ def run_img():
         # 1) u,v
         fig1 = plt.figure(figsize=(4, 4))
         fig_uv = fig1.add_subplot(111, aspect='equal')
-        x = np.array(data_u)
-        y = np.array(data_v)
-        max_range = max_uv * 1.1
+        x = np.array(data_u)/1000.0
+        y = np.array(data_v)/1000.0
+        max_range = max_uv * 1.1/1000.0
         fig_uv.scatter(x, y, s=1, marker='.', color='brown')
         fig_uv.set_xlim([-max_range, max_range])
         fig_uv.set_ylim([-max_range, max_range])
+        plt.ticklabel_format(useOffset=False, style='plain')
         fig_uv.set_title("UV Plot: %s" % my_config_parser.str_source[0])
+        plt.tight_layout()
         if my_config_parser.unit_flag == 'km':
-            fig_uv.set_xlabel("u$(km)$")
-            fig_uv.set_ylabel("v$(km)$")
+            fig_uv.set_xlabel("$u$(km)")
+            fig_uv.set_ylabel("$v$(km)")
         else:
             fig_uv.set_xlabel("u$(\lambda)$")
             fig_uv.set_ylabel("v$(\lambda)$")
@@ -1034,6 +1036,7 @@ def run_img():
         fig_uv.yaxis.get_major_formatter().set_powerlimits((0, 1))
         fig_uv.xaxis.get_major_formatter().set_powerlimits((0, 1))
         # save uv
+        plt.tight_layout()
         plt.savefig(path_save_uv)
 
         # 2) dirty beam
