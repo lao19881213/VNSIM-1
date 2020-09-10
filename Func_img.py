@@ -166,12 +166,14 @@ class FuncImg(object):
             Nphf = self.n_phf
 
             pixsize = float(imsize) / Npix
+            #print('pixsize : %f, imsize %d, Npix : %d, Nphf: %d' % (pixsize, imsize, Npix, Nphf))
             xx = np.linspace(-imsize / 2., imsize / 2., Npix)
             yy = np.ones(Npix, dtype=np.float32)
             distmat = np.zeros((Npix, Npix), dtype=np.float32)
             modelim = np.zeros((Npix, Npix), dtype=np.float32)
 
             # read model
+            #print(models)
             for model in models:
                 xsh = -model[1]
                 ysh = -model[2]
@@ -191,6 +193,7 @@ class FuncImg(object):
                         yint = ypix + Nphf
                         xint = xpix + Nphf
                         modelim[yint, xint] += float(model[3])
+            #print('yint: %d, xint %d' % (yint, xint))           
 
             # read image file
             for imfile in imfiles:
@@ -1040,6 +1043,7 @@ def run_img():
         plt.savefig(path_save_uv)
 
         # 2) dirty beam
+        #print(data_img_bm.shape)
         fig2 = plt.figure()
         fig_bm = fig2.add_subplot(111, aspect='equal')
         # plot_beam = fig_bm.imshow(data_img_bm, origin='lower', aspect='equal', vmin=-0, vmax=1.0, cmap=colormap)
@@ -1053,6 +1057,7 @@ def run_img():
         plt.savefig(path_save_bm)
 
         # 3) clean beam
+        #print(show_range)
         fig3 = plt.figure()
         fig_cbm = fig3.add_subplot(111, aspect='equal')
         plot_cbeam = fig_cbm.imshow(data_img_cbm, origin='lower', aspect='equal',picker=True, interpolation='nearest', cmap=colormap, norm=norm)
