@@ -4,7 +4,7 @@
 @date: Dec 26, 2018
 """
 import matplotlib as mpl
-mpl.use("TkAgg")
+#mpl.use("TkAgg")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pl
@@ -585,11 +585,11 @@ def run_obs():
         el1 = elevation[i]
         h1 = hour_lst[i]
         ax1_2.plot(h1, el1, '.-', markersize=1, label=gs_lst[i])
-    ax1_2.set_xlim(0, x_hour_lmt)
+    ax1_2.set_xlim(0, x_hour_lmt+0.5)
     ax1_2.set_xlabel("Time(h)")
     ax1_2.set_ylabel("Elevation($^\circ$)")
-    ax1_2.set_title("The elevation of source in VLBI stations")
-    plt.legend(loc="best")
+    ax1_2.set_title("The elevation of %s source in VLBI stations" % my_config_parser.str_source[0])
+    plt.legend(loc="best",ncol=2)
     tmp_cut = myFuncObs.get_cutoff_angle()
     ax1_2.plot([hour_lst[0][0], hour_lst[0][-1]], [tmp_cut, tmp_cut], '--k')
 
