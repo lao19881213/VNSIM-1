@@ -7,7 +7,7 @@ STOP_TIME="2021/10/01/16/00/00"
 
 hours=(3)
 
-OBS_N_ALL="qitai_square qitai_circle qitai_t_shape qitai_y_shape qitai_spiral qitai_hybrid"
+OBS_N_ALL="qitai_square qitai_circle qitai_t_shape qitai_y_shape qitai_spiral qitai_hybrid qitai_hybrid_46_p1 qitai_hybrid_46_p2"
 
 for OBS_N in $OBS_N_ALL;
 do
