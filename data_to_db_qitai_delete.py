@@ -34,7 +34,7 @@ import numpy as np
 #data_array[:,0] = data_array[:,0]
 #data_array[:,1] = data_array[:,1]
 #data_array[:,2] = data_array[:,2]
-for mm in range(16):
+for mm in range(46):
        array_name = '%s_%s' % (args.array_data, str(mm+1))
        sql = 'DELETE FROM table_vlbi WHERE vlbi_name="' + array_name + '"'
 
