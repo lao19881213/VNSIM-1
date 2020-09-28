@@ -19,8 +19,8 @@ do
 	for stoptime in $STOP_TIME;
 	do
                 echo ${hours[$i]}h	
-	        python3 creat_ini_new.py -s $radec -t $START_TIME -p $stoptime -i config_uv_img_${OBS_N}.ini #-m "RadioGalaxy.model" 
-	        python3 Func_img_array.py -c config_uv_img_${OBS_N}.ini -n ${OBS_N}_${radec}_${hours[$i]}h -i -f png	
+	        python3 creat_ini_new.py -s $radec -t $START_TIME -p $stoptime -i config_uv_img_${OBS_N}.ini -m "RadioGalaxy.model" 
+	        python3 Func_img_array.py -c config_uv_img_${OBS_N}.ini -n ${OBS_N}_${radec}_${hours[$i]}h_RadioGalaxy_model -i -f png	
         done
 done
 done

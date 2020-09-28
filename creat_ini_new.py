@@ -29,16 +29,22 @@ def parse_args():
     parser = argparse.ArgumentParser(description="creat ini file")
     parser.add_argument('-t',
                         '--start_time',
-                        default='2021/10/01/00/00/00',
+                        default='2021/10/01/13/00/00',
                         help='Specify the obs start time')
     parser.add_argument('-p',
                         '--stop_time',
-                        default='2021/10/01/01/00/00',
+                        default='2021/10/01/16/00/00',
                         help='Specify the obs start time')
     parser.add_argument('-s',
                         '--source_pos',
                         default='RA00DEC90',
                         help='Specify the source position')
+
+    parser.add_argument('-m',
+                        '--source_model',
+                        default='Point-source.model',
+                        help='Specify the source model')
+
     parser.add_argument('-i',
                        '--conf_ini',
                        default='config_uv_qitai_square.ini',
@@ -67,6 +73,8 @@ conf.set("obs_time", "end", str_stop)
 str_source_pos = args.source_pos
 conf.set("station", "pos_source", str_source_pos)
 
+str_source_model = args.source_model
+conf.set("imaging", "source_model", str_source_model)
 fh = open(ini_file ,'w')
 
 conf.write(fh)
