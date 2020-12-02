@@ -881,7 +881,7 @@ def run_img():
     if use_uv_file:
         read_in = np.loadtxt(uv_file_path, dtype=np.float32)
         # my Func_uv.py will save u,v data in row fashion
-        data_u, data_v = read_in[0], read_in[1]
+        data_u, data_v = read_in[:,0], read_in[:,1]
         max_uv = max(np.max(np.abs(data_u)), np.max(np.abs(data_v)))
     else:
         start_time = ut.time_2_mjd(*my_config_parser.time_start, 0)

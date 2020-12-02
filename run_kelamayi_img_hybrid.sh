@@ -7,7 +7,7 @@ STOP_TIME="2021/10/01/15/30/00"
 
 hours=(0.5)
 
-OBS_N_ALL="kelamayi_square kelamayi_circle kelamayi_t_shape kelamayi_y_shape kelamayi_spiral kelamayi_hybrid_square"
+OBS_N_ALL="kelamayi_hybrid_square"
 
 for OBS_N in $OBS_N_ALL;
 do

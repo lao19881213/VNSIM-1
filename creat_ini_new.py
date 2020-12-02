@@ -49,7 +49,10 @@ def parse_args():
                        '--conf_ini',
                        default='config_uv_qitai_square.ini',
                        help='Specify the ini conf file')
-
+    parser.add_argument('-n',
+                       '--antenna_name',
+                       default='kelamayi_square',
+                       help='antenna name')
     return parser.parse_args()
 
 
@@ -72,6 +75,18 @@ conf.set("obs_time", "end", str_stop)
 
 str_source_pos = args.source_pos
 conf.set("station", "pos_source", str_source_pos)
+
+atn = args.antenna_name
+
+data = np.loadtxt('./DATABASE/%s' % atn)
+str_atn = ""
+for i in range(data.shape[0]):
+     if i < data.shape[0]-1:
+        str_atn = str_atn + '%s_%s, ' % (atn, str(i+1)) 
+     else:
+        str_atn = str_atn + '%s_%s' % (atn, str(i+1)) 
+
+conf.set("station", "pos_vlbi", str_atn)
 
 str_source_model = args.source_model
 conf.set("imaging", "source_model", str_source_model)
