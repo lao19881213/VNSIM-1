@@ -744,9 +744,9 @@ def run_uv_basic():
     fig = plt.figure(figsize=(8,8))
     ax = plt.subplot(111, aspect='equal')
     if x is not None and y is not None:
-        x = np.array(x)/1000.0
-        y = np.array(y)/1000.0
-        max_range = max_xy /1000.0 *1.1
+        x = np.array(x)#/1000.0
+        y = np.array(y)#/1000.0
+        max_range = max_xy *1.1 #/1000.0 *1.1
         ax.scatter(x, y, s=1, marker='.', color='brown')
         plt.ticklabel_format(useOffset=False, style='plain')
         ax.set_xlim([-max_range, max_range])

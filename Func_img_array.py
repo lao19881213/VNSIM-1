@@ -952,9 +952,9 @@ def run_img():
         figs = plt.figure(figsize=(8, 4))
         # 1) u,v
         fig_uv = figs.add_subplot(231, aspect='equal')
-        x = np.array(data_u)/1000.0
-        y = np.array(data_v)/1000.0
-        max_range = max_uv * 1.1 /1000.0
+        x = np.array(data_u)#/1000.0
+        y = np.array(data_v)#/1000.0
+        max_range = max_uv * 1.1 #/1000.0
         fig_uv.scatter(x, y, s=1, marker='.', color='brown')
         fig_uv.set_xlim([-max_range, max_range])
         fig_uv.set_ylim([-max_range, max_range])
@@ -1019,9 +1019,9 @@ def run_img():
         # 1) u,v
         fig1 = plt.figure(figsize=(4, 4))
         fig_uv = fig1.add_subplot(111, aspect='equal')
-        x = np.array(data_u)/1000.0
-        y = np.array(data_v)/1000.0
-        max_range = max_uv * 1.1/1000.0
+        x = np.array(data_u)#/1000.0
+        y = np.array(data_v)#/1000.0
+        max_range = max_uv * 1.1#/1000.0
         fig_uv.scatter(x, y, s=1, marker='.', color='brown')
         fig_uv.set_xlim([-max_range, max_range])
         fig_uv.set_ylim([-max_range, max_range])
