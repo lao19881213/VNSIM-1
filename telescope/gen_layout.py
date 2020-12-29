@@ -42,12 +42,12 @@ def generate_layout(telescope_number = 4, layout_type = 'square', telesccope_dia
         #row = 23
         #col = 23
         # 200 antennas
-        row = 100
-        col = 100
+        row = 2
+        col = 3
         for i in range(row):
-          f.write(('{:.5f}, {:.5f}, {:.5f} \n').format(float(x + i*telescope_space - telescope_space * row /2), float(y),  float(z)))
+          f.write(('{:.5f} {:.5f} {:.5f} \n').format(float(x + i*telescope_space - telescope_space * row /2), float(y),  float(z)))
         for i in range(col):
-          f.write(('{:.5f}, {:.5f}, {:.5f} \n').format(float(x), float(y + i*telescope_space),  float(z)))
+          f.write(('{:.5f} {:.5f} {:.5f} \n').format(float(x), float(y + i*telescope_space),  float(z)))
         f.close()
     elif layout_type == 'y-shape':
         ## 16 antennas
@@ -252,3 +252,5 @@ xyz = (-1668.557207, 5506.838527, 2744.934966) #in km
 telescope_cnt = 36
 
 generate_layout(telescope_number=telescope_cnt,layout_type='spiral', telesccope_diameter=4.5, cite_locate=xyz, outputfile='gz_spiral.txt')
+
+generate_layout(telescope_number=telescope_cnt,layout_type='t-shape', telesccope_diameter=4.5, cite_locate=xyz, outputfile='gz_t_shape.txt', telescope_space = 20)
