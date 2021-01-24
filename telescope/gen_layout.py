@@ -84,7 +84,7 @@ def generate_layout(telescope_number = 4, layout_type = 'square', telesccope_dia
         for i, v in enumerate(x):
             #print(i, ':', v, y[i])
             f.write(('{:.5f} {:.5f} {:.5f} \n').format((v), (y[i]), float(zz)))
-        plt.plot(x, y)
+        #plt.plot(x, y)
         #print(x, y)
         theta = np.radians(np.linspace(0, 120, int(telescope_number/3)))
         r = 5 * theta ** 2
@@ -93,7 +93,7 @@ def generate_layout(telescope_number = 4, layout_type = 'square', telesccope_dia
         for i, v in enumerate(x):
             #print(i, ':', v, y[i])
             f.write(('{:.5f} {:.5f} {:.5f} \n').format((v), (y[i]), float(zz)))
-        plt.plot(x, y)
+        #plt.plot(x, y)
         #print(x, y)
         theta = np.radians(np.linspace(0, 120, int(telescope_number/3)))
         r = 5 * theta ** 2
@@ -102,7 +102,7 @@ def generate_layout(telescope_number = 4, layout_type = 'square', telesccope_dia
         for i, v in enumerate(x):
             #print(i, ':', v, y[i])
             f.write(('{:.5f} {:.5f} {:.5f} \n').format((v), (y[i]), float(zz)))
-        plt.plot(x, y)
+        #plt.plot(x, y)
         #print(x, y)
         print("remove the duplicate positions for spiral (the first line)")
         f.close()
@@ -244,13 +244,35 @@ def get_hybrid_loc_200(telescope_space = 40):
             f.write(('{:.5f}, {:.5f}, 6328482.528906228 \n').format((x), (y)))
 
 
+import argparse
 
+
+parser = argparse.ArgumentParser(description='generate telescope')
+
+parser.add_argument('--xyz', dest='xyz', type=str, default='-1668557.207 5506838.527 2744934.966', help='xyz of array center in deg')
+parser.add_argument('--outn', dest='outn', type=str, default='gz_spiral.txt', help='output file name')
+
+args = parser.parse_args()
+
+xyz_str = args.xyz
+x = float(xyz_str.split(' ')[0])/1000.0
+y = float(xyz_str.split(' ')[1])/1000.0
+z = float(xyz_str.split(' ')[2])/1000.0
 # gz
-xyz = (-1668.557207, 5506.838527, 2744.934966) #in km
+#FAST
+xyz = (x,y,z)#(-1668.557207, 5506.838527, 2744.934966) #in km
+#others 4 locations
+#[blao@x86-logon01 VNSIM-1]$ python3 radec2itrf.py --ra 107.08385555555554 --dec 28.52091111111111 --at 1391.01
+#(-1651740.7116200358, -897602.7359445131, 6075829.232580593)
+#[blao@x86-logon01 VNSIM-1]$ python3 radec2itrf.py --ra 108.32827222222222 --dec 28.58138333333333 --at 1097.91
+#(-1766899.784731416, -962600.4029320397, 6033309.445597313)
+#[blao@x86-logon01 VNSIM-1]$ python3 radec2itrf.py --ra 108.25675555555556 --dec 27.233922222222223 --at 1029.23
+#(-1782290.0439541605, -917306.9898340167, 6035749.3328213245)
+#[blao@x86-logon01 VNSIM-1]$ python3 radec2itrf.py --ra 104.7829295 --dec 24.870416527777778 --at 1576.596
+#(-1481512.0576514273, -686765.4547585718, 6146516.744991903)
 
-
+outn = args.outn
 telescope_cnt = 36
+#print(xyz)
+generate_layout(telescope_number=telescope_cnt,layout_type='spiral', telesccope_diameter=4.5, cite_locate=xyz, outputfile=outn)
 
-generate_layout(telescope_number=telescope_cnt,layout_type='spiral', telesccope_diameter=4.5, cite_locate=xyz, outputfile='gz_spiral.txt')
-
-generate_layout(telescope_number=telescope_cnt,layout_type='t-shape', telesccope_diameter=4.5, cite_locate=xyz, outputfile='gz_t_shape.txt', telescope_space = 20)
